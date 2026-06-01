@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hamesha Nalconian</title>
+  <link rel="stylesheet" href="nalco.css">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans+Devanagari:wght@700;900&family=Playfair+Display:wght@400;500;600;700;800&family=Nunito:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+</head>
+
+<body>
+  <section class="page active" id="home">
+
+    <nav class="navbar">
+      <div class="container nav-inner">
+        <div class="brand" onclick="showPage('home')">
+          <div class="brand-wordmark">
+            <img src="logo.png"alt="NALCO Logo" class="brand-logo">
+          </div>
+        </div>
+
+        <div class="nav-links">
+          <a href="#" class="active">Home</a>
+          <a href="https://mudira.nalcoindia.co.in:444/nalco/?p=investment">Investments</a>
+          <a href="https://mudira.nalcoindia.co.in:444/nalco/?p=wellness">Wellness</a>
+          <a href="https://mudira.nalcoindia.co.in:444/nalco/?p=press-releases">Press Releases</a>
+          <a href="https://mudira.nalcoindia.co.in:444/nalco/?p=faq">Faq</a>
+          <a href="https://mudira.nalcoindia.co.in:444/nalco/?p=contact-us">Contact us</a>
+        </div>
+
+        <div class="socials">
+          <a class="social-chip" href="https://www.facebook.com/nalcoindia" target="_blank">
+            Facebook
+            <img src="facebook.png" height="20" width="20" alt="Facebook">
+          </a>
+          <div class="social-divider"></div>
+          <a class="social-chip" href="https://x.com/NALCO_India" target="_blank">
+            @NALCO_India
+            <img src="x.png" height="20" width="20" alt="Twitter">
+          </a>
+          <a class="social-chip" href="https://x.com/cmdnalco" target="_blank">
+            @cmdnalco
+            <img src="x.png" height="20" width="20" alt="Twitter">
+          </a>
+        </div>
+
+      </div>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-slides" id="heroSlides"></div>
+      <div class="hero-overlay"></div>
+
+      <div class="container">
+        <div class="hero-content">
+          <div class="pill">Portal for Retired Employees</div>
+
+          <h2>Welcome to<br>Hamesha Nalconian</h2>
+
+          <p>
+            Stay connected with NALCO's retired family.<br>
+            Access benefits, wellness schemes, circulars,<br>
+            announcements and community updates all in one place.
+          </p>
+
+          <div class="hero-actions" style="display: flex; gap: 15px; margin-top: 30px;">
+            <button class="btn btn-primary" onclick="showPage('login')" style="padding: 12px 32px; font-size: 15px;">Login</button>
+            <button class="btn btn-secondary" onclick="showPage('register')" style="padding: 12px 32px; font-size: 15px;">Sign Up</button>
+          </div>
+
+          <div class="hero-dots" id="heroDots"></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="ticker">
+      <div class="ticker-label">
+       🟢  Announcements 
+      </div>
+      <div class="ticker-scroll">
+        <div class="ticker-track">
+          <span>Medical reimbursement deadline: 30 June 2026</span>
+          <span>Pension revision circular now available</span>
+          <span>Welfare Camp – Bhubaneswar – 15 June 2026</span>
+          <span>Updated empanelled hospitals list uploaded</span>
+          <span>Superannuation list for May 2026 published</span>
+          <span>PRMBS session recording uploaded</span>
+          <span>Medical reimbursement deadline: 30 June 2026</span>
+          <span>Pension revision circular now available</span>
+          <span>Welfare Camp – Bhubaneswar – 15 June 2026</span>
+          <span>Updated empanelled hospitals list uploaded</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="container main-grid">
+
+      <div class="top-row">
+        <div class="card">
+          <div class="updates-header">Latest Updates</div>
+          <div class="tabs">
+            <button class="tab-btn active" data-tab="notifications">Notifications</button>
+            <button class="tab-btn" data-tab="links">Important Links</button>
+          </div>
+          <div class="tab-content-wrapper">
+            <div class="tab-content" id="notifications">
+              <div class="news-item">Empanelled Hospitals valid upto 30-09-2026 <span class="tag-new">New</span></div>
+              <div class="news-item">PRMBS session recording uploaded <span class="tag-new">New</span></div>
+              <div class="news-item">Superannuation list for May 2026 published</div>
+              <div class="news-item">Medical reimbursement form updated</div>
+            </div>
+            <div class="tab-content" id="links" style="display:none">
+              <div class="news-item">Indian Rail Info - http://www.indianrail.gov.in/</div>
+              <div class="news-item">Railway Ticket Booking - https://www.irctc.co.in</div>
+              <div class="news-item">Life Insurance Corporation of India LIC - https://www.licindia.in/</div>
+              <div class="news-item">Nalco website - https://www.nalcoindia.com/</div>
+              <div class="news-item">Flight Booking - https://www.makemytrip.com/flights/</div>
+              <div class="news-item">State Bank Of India - https://www.onlinesbi.com/</div>
+              <div class="news-item">Indian Government - https://india.gov.in/</div>
+              <div class="news-item">The Gazette of India - http://egazette.nic.in</div>
+              <div class="news-item">OLD AGE SOLUTIONS - An initiative of Ministry of Science & Technology(GoI) - https://www.oldagesolutions.org/</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="side-card">
+          <div class="side-hd">
+            <div class="side-hd-title">Download App</div>
+          </div>
+          <div class="side-body">
+            <p style="font-size:12.5px;color:var(--muted);margin-bottom:14px;">
+              Access your portal anytime, anywhere on your mobile device.
+            </p>
+            <a href="https://apps.apple.com/in/app/hamesha-nalconian/id1266585848" class="app-b">
+              <img src="app-store.png" height="27" width="27" alt="Apple">
+              <div>
+                <div class="sm">Available on the</div>
+                <div class="lg">App Store</div>
+              </div>
+            </a>
+            <a href="https://play.google.com/store/apps/details?id=com.nalcoindia.hameshanalco&hl=en_IN" class="app-b">
+              <img src="app.png" height="25" width="25" alt="Google Play">
+              <div>
+                <div class="sm">Android App on</div>
+                <div class="lg">Google Play</div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="section-title">
+          <div class="title-accent"></div>
+          <h2>Superannuation – This Month</h2>
+          <div class="title-bar"></div>
+        </div>
+        <div class="people-grid" id="peopleGrid"></div>
+      </div>
+
+      <div class="gallery-section">
+        <div class="section-title">
+          <div class="title-accent"></div>
+          <h2>Gallery</h2>
+          <div class="title-bar"></div>
+        </div>
+        <div class="flip-grid" id="flipGrid"></div>
+      </div>
+
+    </div>
+
+    <footer class="footer">           
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <div class="footer-brand">
+              <div class="footer-brand-text">
+                <h4>Hamesha Nalconian</h4>
+                <span>NALCO RETIRED EMPLOYEES PORTAL</span>
+              </div>
+            </div>
+            <p>
+              A dedicated portal for retired employees of National Aluminium Company Limited.
+            </p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>© 2026 National Aluminium Company Limited (NALCO)</span>
+        </div>
+      </div>
+    </footer>
+
+  </section>
+
+  <section class="page" id="login">
+    <div class="auth-page">
+      <div class="card auth-card">
+        <div class="auth-head">
+          <h2>Welcome Back</h2>
+          <p>Sign in to your portal account</p>
+        </div>
+        <div class="auth-body">
+          <img src="logo.png" width="200" alt="NALCO Logo" class="auth-logo">
+          <input class="input" placeholder="Employee Number">
+          <input class="input" type="password" placeholder="Password">
+          <button class="btn btn-primary" style="width:100%">Login</button>
+          <div class="back-home">
+            <a onclick="showPage('home')">← Back to Home</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" id="register">
+    <div class="auth-page">
+      <div class="card auth-card">
+        <div class="auth-head">
+          <h2>Create Account</h2>
+          <p>Register as a retired NALCO employee</p>
+        </div>
+        <div class="auth-body">
+          <img src="logo.png" width="200" alt="NALCO Logo" class="auth-logo">
+          <input class="input" placeholder="First Name">
+          <input class="input" placeholder="Last Name">
+          <input class="input" placeholder="Employee Number">
+          <input class="input" type="date">
+          <input class="input" placeholder="Mobile Number">
+          <input class="input" type="password" placeholder="Create Password">
+          <button class="btn btn-primary" style="width:100%">Create Account</button>
+          <div class="back-home">
+            <a onclick="showPage('login')">Already Registered? Sign In</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    function showPage(id) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      window.scrollTo(0, 0);
+    }
+
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('notifications').style.display = 'none';
+        document.getElementById('links').style.display = 'none';
+        document.getElementById(btn.dataset.tab).style.display = 'block';
+      });
+    });
+
+    const heroItems = [
+      { emoji: '', bg: 'linear-gradient(135deg, rgba(183, 28, 28, 0.65), rgba(230, 74, 25, 0.75)), url("sl1.jpg") center/cover no-repeat' },
+      { emoji: '', bg: 'linear-gradient(135deg, rgba(183, 28, 28, 0.65), rgba(230, 74, 25, 0.75)), url("sl2.png") center/cover no-repeat' },
+      { emoji: '', bg: 'linear-gradient(135deg, rgba(183, 28, 28, 0.65), rgba(230, 74, 25, 0.75)), url("sl3.jpg") center/cover no-repeat' },
+      { emoji: '', bg: 'linear-gradient(135deg, rgba(183, 28, 28, 0.65), rgba(230, 74, 25, 0.75)), url("sl4.jpg") center/cover no-repeat' },
+    ];
+
+    const slidesEl = document.getElementById('heroSlides');
+    const dotsEl = document.getElementById('heroDots');
+    let heroIdx = 0;
+
+    heroItems.forEach((item, i) => {
+      const sl = document.createElement('div');
+      sl.className = 'hero-slide' + (i === 0 ? ' visible' : '');
+      sl.style.background = item.bg;
+      sl.innerHTML = item.emoji;
+      slidesEl.appendChild(sl);
+
+      const dot = document.createElement('div');
+      dot.className = 'hero-dot' + (i === 0 ? ' active' : '');
+      dot.addEventListener('click', () => setHeroSlide(i));
+      dotsEl.appendChild(dot);
+    });
+
+    function setHeroSlide(idx) {
+      const slides = slidesEl.querySelectorAll('.hero-slide');
+      const dots = dotsEl.querySelectorAll('.hero-dot');
+      slides[heroIdx].classList.remove('visible');
+      dots[heroIdx].classList.remove('active');
+      heroIdx = idx;
+      slides[heroIdx].classList.add('visible');
+      dots[heroIdx].classList.add('active');
+    }
+
+    setInterval(() => setHeroSlide((heroIdx + 1) % heroItems.length), 3500);
+
+    const retirees = [
+      ['Pravat Kumar Subudhi', 'Superintendent (Elect)'],
+      ['Madan Mohan Sahoo', 'Superintendent Gr.II'],
+      ['Saligram Upadhyay', 'Engineer'],
+      ['Suresh Chandra Bose', 'Sr. Manager'],
+      ['Pramod Kumar Nayak', 'Officer'],
+      ['Rajendro Prasad Tanti', 'Technician'],
+      ['Karunakar Sethi', 'Foreman'],
+      ['Krushna Chandra Moharana', 'Operator'],
+      ['Manoj Kumar Nayak', 'Sr. Engineer'],
+      ['Ratikanta Panda', 'Officer Gr.I'],
+      ['Cheru Gochhayat', 'Manager'],
+      ['Rameswar Hansdah', 'Technician Gr.II'],
+      ['Kailash Chandra Sethy', 'Retired Employee'],
+      ['Kishore Kumar Sethi', 'Retired Employee'],
+      ['Iswar Chandra Besra', 'Retired Employee'],
+      ['Ajit Kumar Behera', 'Retired Employee'],
+      ['Chhatish Chandra Naik', 'Retired Employee'],
+      ['Parsu Jani', 'Retired Employee'],
+      ['Prabhat Kumar Padhy', 'Retired Employee'],
+      ['Kailash Chandra Pradhan', 'Retired Employee'],
+      ['Sukanta Kumar Nayak', 'Retired Employee'],
+      ['Tushar Kumar Mishra', 'Retired Employee'],
+      ['Saroj Kumar Sahoo', 'Retired Employee'],
+      ['Dumbi Samad', 'Retired Employee'],
+      ['Duryodhan Majhi', 'Retired Employee'],
+      ['Sananda Chandra Parida', 'Retired Employee'],
+      ['Prafulla Kumar Sahu', 'Retired Employee'],
+      ['AIAYA KUMAR DEHURY', 'Retired Employee'],
+      ['Dr. Sunil Kumar Lochab', 'Retired Employee'],
+      ['Binav Krushna Mahapatra', 'Retired Employee'],
+      ['Kailash Chandra Behera', 'Retired Employee'],
+      ['Chamar Singh', 'Retired Employee'],
+      ['JAYAKRUSHNA TUDU', 'Retired Employee'],
+      ['Parsuram Dalnayak', 'Retired Employee'],
+      ['Subrat Kumar Mishra', 'Retired Employee'],
+      ['Naba Kishore Behera', 'Retired Employee'],
+      ['Baklabhusan Naik', 'Retired Employee'],
+      ['Krushna Mohan Samal', 'Retired Employee'],
+      ['Naresh Chandra Dehury', 'Retired Employee'],
+      ['Harekrushna Besra', 'Retired Employee'],
+      ['Dhirendra Kumar Behera', 'Retired Employee'],
+      ['Palani Murugan', 'Retired Employee'],
+      ['Appana Panda', 'Retired Employee'],
+      ['Budhuram Singh', 'Retired Employee'],
+      ['Keshaba Charan Das', 'Retired Employee'],
+      ['Sachidananda Jena', 'Retired Employee'],
+      ['Mahendra Prasad Jena', 'Retired Employee'],
+      ['Bharat Kumar Jena', 'Retired Employee'],
+    ];
+
+    const gradients = [
+      'linear-gradient(135deg,#1565C0,#0D47A1)',
+      'linear-gradient(135deg,#B71C1C,#880E4F)',
+      'linear-gradient(135deg,#2E7D32,#1B5E20)',
+      'linear-gradient(135deg,#E65100,#BF360C)',
+      'linear-gradient(135deg,#4A148C,#311B92)',
+      'linear-gradient(135deg,#004D40,#006064)',
+      'linear-gradient(135deg,#37474F,#263238)',
+      'linear-gradient(135deg,#5D4037,#3E2723)',
+      'linear-gradient(135deg,#1A237E,#283593)',
+      'linear-gradient(135deg,#880E4F,#C2185B)',
+      'linear-gradient(135deg,#0D47A1,#1565C0)',
+      'linear-gradient(135deg,#1B5E20,#388E3C)',
+    ];
+
+    const grid = document.getElementById('peopleGrid');
+    retirees.forEach((p, i) => {
+      const init = p[0].split(' ').map(w => w[0]).join('').slice(0, 2);
+      const card = document.createElement('div');
+      card.className = 'person card';
+      card.innerHTML = `
+      <div class="avatar" style="background: url('user.jpg') center/cover no-repeat;"></div>
+      <div class="person-info">
+        <h4>${p[0]}</h4>
+        <p>${p[1]}</p>
+      </div>
+    `;
+      grid.appendChild(card);
+    });
+
+    const galleryImages = [
+      'url("g1.jpg") center/cover no-repeat',
+      'url("g2.jpg") center/cover no-repeat',
+      'url("g3.jpg") center/cover no-repeat',
+      'url("g4.jpg") center/cover no-repeat',
+      'url("g5.jpg") center/cover no-repeat',
+      'url("g6.jpg") center/cover no-repeat',
+    ];
+
+    const flipGridEl = document.getElementById('flipGrid');
+
+    for (let i = 0; i < 6; i++) {
+      const cell = document.createElement('div');
+      cell.className = 'flip-cell';
+
+      cell.innerHTML = `
+      <div class="flip-inner">
+        <div class="flip-front" style="background:${galleryImages[i]}"></div>
+        <div class="flip-back" style="background:${galleryImages[(i + 1) % 6]}"></div>
+      </div>
+    `;
+
+      cell.addEventListener('click', () => {
+        const isFlipped = cell.classList.contains('flipped');
+        const randomImg = galleryImages[Math.floor(Math.random() * galleryImages.length)];
+        
+        if (isFlipped) {
+           cell.querySelector('.flip-front').style.background = randomImg;
+        } else {
+           cell.querySelector('.flip-back').style.background = randomImg;
+        }
+        
+        cell.classList.toggle('flipped');
+      });
+      
+      flipGridEl.appendChild(cell);
+    }
+
+    function autoFlip() {
+      const cells = Array.from(flipGridEl.querySelectorAll('.flip-cell'));
+      cells.forEach((cell, i) => {
+        setInterval(() => {
+          const isFlipped = cell.classList.contains('flipped');
+          const randomImg = galleryImages[Math.floor(Math.random() * galleryImages.length)];
+          
+          if (isFlipped) {
+             cell.querySelector('.flip-front').style.background = randomImg;
+          } else {
+             cell.querySelector('.flip-back').style.background = randomImg;
+          }
+          
+          cell.classList.toggle('flipped');
+        }, 3000 + i * 700);
+      });
+    }
+
+    autoFlip();
+  </script>
+</body>
+
+</html>
