@@ -1,19 +1,30 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Chatbot from "./components/Chatbot";
 
-function App() {
+function AppContent() {
+  const location = useLocation();
+  const hideChatbot = ['/login', '/register'].includes(location.pathname);
+
   return (
-    <BrowserRouter>
+    <>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
-      <Chatbot />
+      {!hideChatbot && <Chatbot />}
+    </>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <AppContent />
     </BrowserRouter>
   );
 }
