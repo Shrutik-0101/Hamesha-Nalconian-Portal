@@ -22,6 +22,14 @@ export default function Chatbot() {
 
   const toggleChat = () => setIsOpen(!isOpen);
 
+  const formatMessage = (text) => {
+    if (!text) return { __html: '' };
+    const htmlText = text
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\n/g, '<br />');
+    return { __html: htmlText };
+  };
+
   const sendMessage = async (e) => {
     e.preventDefault();
     if (!input.trim()) return;
@@ -40,12 +48,27 @@ export default function Chatbot() {
         body: JSON.stringify({ question: userMessage.content }),
       });
 
+      if (!response.ok) {
+        let errorMsg = `HTTP Error ${response.status}`;
+        try {
+          const errData = await response.json();
+          errorMsg = errData.detail || errData.error || errorMsg;
+        } catch(e) {
+          errorMsg = await response.text();
+        }
+        throw new Error(errorMsg);
+      }
+
       const data = await response.json();
       
       setMessages(prev => [...prev, { role: 'assistant', content: data.answer }]);
     } catch (error) {
       console.error("Error communicating with backend:", error);
-      setMessages(prev => [...prev, { role: 'assistant', content: "Sorry, I'm having trouble connecting to the server." }]);
+      let displayMessage = "Sorry, I'm having trouble connecting to the server.";
+      if (error.message && error.message !== "Failed to fetch") {
+        displayMessage = `Sorry, an error occurred: ${error.message}`;
+      }
+      setMessages(prev => [...prev, { role: 'assistant', content: displayMessage }]);
     } finally {
       setIsLoading(false);
     }
@@ -58,19 +81,22 @@ export default function Chatbot() {
           <div className="chatbot-header">
             <div className="chatbot-header-info">
               <div className="chatbot-avatar">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                <img src="src/assets/chatbotpfp.png"  height="30" width="30"></img>
               </div>
-              <h3>NALCO Assistant</h3>
+              <h3>NALCO Sahayak</h3>
             </div>
             <button className="chatbot-close" onClick={toggleChat}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+              ❌
             </button>
           </div>
           
           <div className="chatbot-messages">
             {messages.map((msg, index) => (
               <div key={index} className={`chatbot-message ${msg.role}`}>
-                <div className="message-content">{msg.content}</div>
+                <div 
+                  className="message-content" 
+                  dangerouslySetInnerHTML={formatMessage(msg.content)} 
+                />
               </div>
             ))}
             {isLoading && (
