@@ -14,26 +14,24 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
 class ChatRequest(BaseModel):
     question: str
 
-
 @app.get("/")
 def home():
-
     return {
         "message": "Backend Running"
     }
 
-
 @app.post("/chat")
 def chat(req: ChatRequest):
-
-    answer = generate_answer(
-        req.question
-    )
-
-    return {
-        "answer": answer
-    }
+    try:
+        answer = generate_answer(
+            req.question
+        )
+        return {
+            "answer": answer
+        }
+    except Exception as e:
+        from fastapi import HTTPException
+        raise HTTPException(status_code=500, detail=str(e))

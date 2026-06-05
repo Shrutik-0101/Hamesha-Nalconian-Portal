@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "start:backend": "cd backend && node server.js",
+    "start:chatbot": "cd chatbot && ..\\.venv\\Scripts\\uvicorn app:app --port 8000 --reload"
   },
   "dependencies": {
     "axios": "^1.17.0",

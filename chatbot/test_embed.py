@@ -9,7 +9,7 @@ client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 input_docs = ["hello world", "test document"]
 try:
     res = client.models.embed_content(
-        model="text-embedding-004",
+        model="gemini-embedding-2",
         contents=input_docs,
         config=types.EmbedContentConfig(task_type="RETRIEVAL_DOCUMENT")
     )

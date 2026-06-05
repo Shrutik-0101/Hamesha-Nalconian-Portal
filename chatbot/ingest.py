@@ -1,8 +1,12 @@
 import sys
+import os
 from rag import ingest_pdf
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 DOCUMENT_PATHS = [
-    "nalco-portal\pdf1.pdf", "nalco-portal\pdf2.pdf"
+    os.path.normpath(os.path.join(BASE_DIR, "..", "pdf1.pdf")),
+    os.path.normpath(os.path.join(BASE_DIR, "..", "pdf2.pdf"))
 ]
 
 if __name__ == "__main__":
