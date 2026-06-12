@@ -22,9 +22,6 @@ export const sendOtp = async (req, res) => {
       return res.status(400).json({ message: 'CAPTCHA token is required' });
     }
     let recaptchaSecret = process.env.RECAPTCHA_SECRET_KEY;
-    if (!recaptchaSecret || recaptchaSecret === 'your_recaptcha_secret_key_here') {
-      recaptchaSecret = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe';
-    }
     const captchaVerifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${recaptchaSecret}&response=${captchaToken}`;
     const captchaResponse = await axios.post(captchaVerifyUrl);
     if (!captchaResponse.data.success) {
@@ -141,9 +138,6 @@ export const login = async (req, res) => {
     }
 
     let recaptchaSecret = process.env.RECAPTCHA_SECRET_KEY;
-    if (!recaptchaSecret || recaptchaSecret === 'your_recaptcha_secret_key_here') {
-      recaptchaSecret = '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe';
-    }
     const captchaVerifyUrl = `https://www.google.com/recaptcha/api/siteverify?secret=${recaptchaSecret}&response=${captchaToken}`;
     
     const captchaResponse = await axios.post(captchaVerifyUrl);

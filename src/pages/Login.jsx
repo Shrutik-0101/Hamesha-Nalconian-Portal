@@ -71,6 +71,7 @@ export default function Login() {
       <ToastContainer />
       <div className="auth-page">
         <div className="card auth-card" style={{ maxWidth: '400px', margin: '4rem auto', padding: '2rem' }}>
+          <h2 style={{ textAlign: 'center', marginBottom: '0.3rem', color: '#1d2f60' }}>Login to Your Account</h2>
           <div className="auth-body">
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               <div className="form-group">
@@ -105,7 +106,7 @@ export default function Login() {
 
               <div className="form-group" style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
                 <ReCAPTCHA
-                  sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY || '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI'}
+                  sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
                   onChange={(token) => setCaptchaToken(token)}
                 />
               </div>

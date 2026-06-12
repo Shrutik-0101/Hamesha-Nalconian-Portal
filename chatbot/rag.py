@@ -91,7 +91,6 @@ def ingest_pdf(pdf_path):
         batch_chunks = chunks[i:i + batch_size]
         batch_ids = [f"{file_name}_{idx}" for idx in range(i, i + len(batch_chunks))]
         
-        # Check existing to avoid duplicates
         existing = db.get(ids=batch_ids)
         existing_ids = set(existing.get("ids", []))
         
@@ -118,8 +117,8 @@ def ingest_pdf(pdf_path):
                     documents=new_chunks
                 )
                 logger.info(f"Batch {batch_num} successfully ingested.")
-                time.sleep(3)  # Standard throttling between successful batches
-                break # Success, exit retry loop
+                time.sleep(3)  
+                break
             except Exception as e:
                 error_msg = str(e)
                 if "429" in error_msg or "RESOURCE_EXHAUSTED" in error_msg.upper() or "503" in error_msg or "UNAVAILABLE" in error_msg.upper():
@@ -131,7 +130,7 @@ def ingest_pdf(pdf_path):
                         logger.error(f"Failed batch {batch_num} after {max_retries} attempts. Skipping to next batch.")
                 else:
                     logger.error(f"Batch {batch_num} failed with unexpected error: {e}")
-                    break # Don't retry other errors
+                    break 
 
     logger.info(f"PDF {file_name} Ingested Successfully")
 
@@ -172,7 +171,14 @@ def make_rag_prompt(query, passages):
 
 def generate_answer(query):
 
-    passages = get_relevant_passages(query)
+    try:
+        passages = get_relevant_passages(query)
+    except Exception as e:
+        logger.error(f"Error fetching passages (Token exhaustion?): {e}")
+        error_msg = str(e)
+        if "429" in error_msg or "RESOURCE_EXHAUSTED" in error_msg.upper() or "503" in error_msg or "UNAVAILABLE" in error_msg.upper():
+            return "I am currently experiencing high demand and my tokens for searching documents are exhausted. Please try again later."
+        return "An unexpected error occurred while fetching documents. Please try again."
 
     prompt = make_rag_prompt(
         query=query,    
