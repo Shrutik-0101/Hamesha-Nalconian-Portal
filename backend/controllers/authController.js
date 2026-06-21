@@ -157,11 +157,11 @@ export const login = async (req, res) => {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    // Generate JWT
     const payload = {
       user: {
         id: user._id,
         employeeNumber: user.employeeNumber,
+        role: user.role,
       }
     };
 
@@ -173,6 +173,7 @@ export const login = async (req, res) => {
       user: {
         employeeNumber: user.employeeNumber,
         email: user.email,
+        role: user.role,
       }
     });
   } catch (error) {

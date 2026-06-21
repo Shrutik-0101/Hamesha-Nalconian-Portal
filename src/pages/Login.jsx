@@ -56,7 +56,11 @@ export default function Login() {
       toast.success('Login successful!');
 
       setTimeout(() => {
-        navigate('/');
+        if (data.user?.role === 'ADMIN') {
+          navigate('/admin-dashboard');
+        } else {
+          navigate('/user-dashboard');
+        }
       }, 1000);
 
     } catch (error) {

@@ -59,3 +59,6 @@ export const sendOtpEmail = async (to, otp) => {
     return false;
   }
 };
+
+// Initialize email service on startup to log credentials
+getTransporter().catch(console.error);
