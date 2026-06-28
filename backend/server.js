@@ -4,6 +4,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes.js';
 import protectedRoutes from './routes/protectedRoutes.js';
+import employeesRoutes from './routes/employeesRoutes.js';
 
 dotenv.config();
 
@@ -14,6 +15,7 @@ app.use(express.json());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/protected', protectedRoutes);
+app.use('/api/employees', employeesRoutes);
 
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/nalco-portal';
