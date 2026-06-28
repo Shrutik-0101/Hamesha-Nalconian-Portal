@@ -19,6 +19,8 @@ export default function Register() {
   });
 
   const [errors, setErrors] = useState({});
+  const [employeeNumberError, setEmployeeNumberError] = useState('');
+  const [mobileError, setMobileError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [captchaToken, setCaptchaToken] = useState(null);
@@ -74,15 +76,17 @@ export default function Register() {
     if (!formData.employeeNumber || !/^\d{6}$/.test(formData.employeeNumber)) {
       newErrors.employeeNumber = 'Employee number is required (exactly 6 digits).';
     }
-    if (!formData.dob) {
-      newErrors.dob = 'Date of birth is required.';
-    } else {
-      const dobDate = new Date(formData.dob);
-      const diff_ms = Date.now() - dobDate.getTime();
-      const age_dt = new Date(diff_ms);
-      const age = Math.abs(age_dt.getUTCFullYear() - 1970);
-      if (age <= 40) {
-        newErrors.dob = 'You must be strictly above 40 years old to register.';
+    if (role !== 'ADMIN') {
+      if (!formData.dob) {
+        newErrors.dob = 'Date of birth is required.';
+      } else {
+        const dobDate = new Date(formData.dob);
+        const diff_ms = Date.now() - dobDate.getTime();
+        const age_dt = new Date(diff_ms);
+        const age = Math.abs(age_dt.getUTCFullYear() - 1970);
+        if (age <= 40) {
+          newErrors.dob = 'You must be strictly above 40 years old to register.';
+        }
       }
     }
     if (!formData.mobile || !/^\d{10}$/.test(formData.mobile)) {
@@ -103,9 +107,35 @@ export default function Register() {
   };
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    if (name === 'employeeNumber') {
+      if (value !== '' && !/^\d+$/.test(value)) {
+        setEmployeeNumberError('Only numbers are allowed.');
+        return;
+      } else if (value.length > 6) {
+        setEmployeeNumberError('Employee number cannot exceed 6 digits.');
+        return;
+      } else {
+        setEmployeeNumberError('');
+      }
+    }
+
+    if (name === 'mobile') {
+      if (value !== '' && !/^\d+$/.test(value)) {
+        setMobileError('Only numbers are allowed.');
+        return;
+      } else if (value.length > 10) {
+        setMobileError('Mobile number cannot exceed 10 digits.');
+        return;
+      } else {
+        setMobileError('');
+      }
+    }
+
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: value
     });
   };
 
@@ -255,19 +285,37 @@ export default function Register() {
               <div className="form-group">
                 <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', fontWeight: '600', color: '#1d2f60' }}>Employee Number</label>
                 <input name="employeeNumber" className="input" placeholder="Employee Number" value={formData.employeeNumber} onChange={handleChange} />
-                {errors.employeeNumber && <span style={{ color: 'red', fontSize: '0.8rem' }}>{errors.employeeNumber}</span>}
+                {employeeNumberError && <span style={{ color: 'red', fontSize: '0.8rem', display: 'block', marginTop: '4px' }}>{employeeNumberError}</span>}
+                {errors.employeeNumber && !employeeNumberError && <span style={{ color: 'red', fontSize: '0.8rem', display: 'block', marginTop: '4px' }}>{errors.employeeNumber}</span>}
               </div>
 
-              <div className="form-group">
-                <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', fontWeight: '600', color: '#1d2f60' }}>Date of Birth</label>
-                <input name="dob" className="input" type="date" value={formData.dob} onChange={handleChange} />
-                {errors.dob && <span style={{ color: 'red', fontSize: '0.8rem' }}>{errors.dob}</span>}
-              </div>
+              {role !== 'ADMIN' && (
+                <div className="form-group">
+                  <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', fontWeight: '600', color: '#1d2f60' }}>Date of Birth</label>
+                  <input 
+                    name="dob" 
+                    className="input" 
+                    type="date" 
+                    value={formData.dob} 
+                    onChange={handleChange} 
+                    onKeyDown={(e) => e.preventDefault()}
+                    onClick={(e) => {
+                      try {
+                        e.target.showPicker();
+                      } catch (err) {
+                        // fallback if showPicker is not supported
+                      }
+                    }}
+                  />
+                  {errors.dob && <span style={{ color: 'red', fontSize: '0.8rem', display: 'block', marginTop: '4px' }}>{errors.dob}</span>}
+                </div>
+              )}
 
               <div className="form-group">
                 <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', fontWeight: '600', color: '#1d2f60' }}>Mobile Number</label>
                 <input name="mobile" className="input" placeholder="Mobile Number (10 digits)" value={formData.mobile} onChange={handleChange} />
-                {errors.mobile && <span style={{ color: 'red', fontSize: '0.8rem' }}>{errors.mobile}</span>}
+                {mobileError && <span style={{ color: 'red', fontSize: '0.8rem', display: 'block', marginTop: '4px' }}>{mobileError}</span>}
+                {errors.mobile && !mobileError && <span style={{ color: 'red', fontSize: '0.8rem', display: 'block', marginTop: '4px' }}>{errors.mobile}</span>}
               </div>
 
               <div className="form-group">
