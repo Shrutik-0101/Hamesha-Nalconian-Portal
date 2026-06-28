@@ -85,7 +85,7 @@ export const verifyOtp = async (req, res) => {
 
 export const register = async (req, res) => {
   try {
-    const { employeeNumber, dob, mobile, email, password, otp } = req.body;
+    const { employeeNumber, dob, mobile, email, password, otp, role } = req.body;
 
     // Verify OTP again just to be secure before creating user
     const otpRecord = await Otp.findOne({ email });
@@ -111,6 +111,7 @@ export const register = async (req, res) => {
       email,
       password: hashedPassword,
       isVerified: true,
+      role: role || 'USER',
     });
 
     await newUser.save();
@@ -155,6 +156,12 @@ export const login = async (req, res) => {
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    // If role is provided, check if it matches the user's actual role
+    const { role } = req.body;
+    if (role && user.role !== role) {
+      return res.status(403).json({ message: `Access denied. You are not registered as an ${role}.` });
     }
 
     const payload = {
