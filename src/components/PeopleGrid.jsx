@@ -1,75 +1,59 @@
+import { useState, useEffect } from 'react';
 import userImg from '../assets/user.jpg';
-
-const retirees = [
-  ['Pravat Kumar Subudhi', 'Superintendent (Elect)'],
-  ['Madan Mohan Sahoo', 'Superintendent Gr.II'],
-  ['Saligram Upadhyay', 'Engineer'],
-  ['Suresh Chandra Bose', 'Sr. Manager'],
-  ['Pramod Kumar Nayak', 'Officer'],
-  ['Rajendro Prasad Tanti', 'Technician'],
-  ['Karunakar Sethi', 'Foreman'],
-  ['Krushna Chandra Moharana', 'Operator'],
-  ['Manoj Kumar Nayak', 'Sr. Engineer'],
-  ['Ratikanta Panda', 'Officer Gr.I'],
-  ['Cheru Gochhayat', 'Manager'],
-  ['Rameswar Hansdah', 'Technician Gr.II'],
-  ['Kailash Chandra Sethy', 'Retired Employee'],
-  ['Kishore Kumar Sethi', 'Retired Employee'],
-  ['Iswar Chandra Besra', 'Retired Employee'],
-  ['Ajit Kumar Behera', 'Retired Employee'],
-  ['Chhatish Chandra Naik', 'Retired Employee'],
-  ['Parsu Jani', 'Retired Employee'],
-  ['Prabhat Kumar Padhy', 'Retired Employee'],
-  ['Kailash Chandra Pradhan', 'Retired Employee'],
-  ['Sukanta Kumar Nayak', 'Retired Employee'],
-  ['Tushar Kumar Mishra', 'Retired Employee'],
-  ['Saroj Kumar Sahoo', 'Retired Employee'],
-  ['Dumbi Samad', 'Retired Employee'],
-  ['Duryodhan Majhi', 'Retired Employee'],
-  ['Sananda Chandra Parida', 'Retired Employee'],
-  ['Prafulla Kumar Sahu', 'Retired Employee'],
-  ['AIAYA KUMAR DEHURY', 'Retired Employee'],
-  ['Dr. Sunil Kumar Lochab', 'Retired Employee'],
-  ['Binav Krushna Mahapatra', 'Retired Employee'],
-  ['Kailash Chandra Behera', 'Retired Employee'],
-  ['Chamar Singh', 'Retired Employee'],
-  ['JAYAKRUSHNA TUDU', 'Retired Employee'],
-  ['Parsuram Dalnayak', 'Retired Employee'],
-  ['Subrat Kumar Mishra', 'Retired Employee'],
-  ['Naba Kishore Behera', 'Retired Employee'],
-  ['Baklabhusan Naik', 'Retired Employee'],
-  ['Krushna Mohan Samal', 'Retired Employee'],
-  ['Naresh Chandra Dehury', 'Retired Employee'],
-  ['Harekrushna Besra', 'Retired Employee'],
-  ['Dhirendra Kumar Behera', 'Retired Employee'],
-  ['Palani Murugan', 'Retired Employee'],
-  ['Appana Panda', 'Retired Employee'],
-  ['Budhuram Singh', 'Retired Employee'],
-  ['Keshaba Charan Das', 'Retired Employee'],
-  ['Sachidananda Jena', 'Retired Employee'],
-  ['Mahendra Prasad Jena', 'Retired Employee'],
-  ['Bharat Kumar Jena', 'Retired Employee'],
-];
+import { getRetiredEmployees, getRetiredCount } from '../services/employeeService';
 
 export default function PeopleGrid() {
+  const [retirees, setRetirees] = useState([]);
+  const [retireesCount, setRetireesCount] = useState(0);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchRetireesData = async () => {
+      try {
+        const [employeesData, countData] = await Promise.all([
+          getRetiredEmployees(),
+          getRetiredCount()
+        ]);
+        setRetirees(employeesData);
+        setRetireesCount(employeesData.length); // Assuming we want the count of all shown users or keep countData.count for just retirees. Let's keep countData.count for the title "Superannuation".
+      } catch (error) {
+        console.error('Error fetching retirees data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRetireesData();
+  }, []);
+
   return (
     <div>
       <div className="section-title">
         <div className="title-accent"></div>
-        <h2>Superannuation – This Month</h2>
+        <h2>Superannuation – This Month {retireesCount > 0 && <span style={{fontSize: '0.6em', fontWeight: 'normal', color: '#666', marginLeft: '10px'}}>({retireesCount} Retirees)</span>}</h2>
         <div className="title-bar"></div>
       </div>
-      <div className="people-grid" id="peopleGrid">
-        {retirees.map((p, i) => (
-          <div className="person card" key={i}>
-            <div className="avatar" style={{ background: `url('${userImg}') center/cover no-repeat` }}></div>
-            <div className="person-info">
-              <h4>{p[0]}</h4>
-              <p>{p[1]}</p>
+      {loading ? (
+        <div style={{ textAlign: 'center', padding: '20px' }}>Loading retirees...</div>
+      ) : (
+        <div className="people-grid" id="peopleGrid">
+          {retirees.length > 0 ? (
+            retirees.map((p, i) => (
+              <div className="person card" key={p._id || i}>
+                <div className="avatar" style={{ background: `url('./src/assets/user.jpg') center/cover no-repeat` }}></div>
+                <div className="person-info">
+                  <h4>{p.name}</h4>
+                  <p>{p.position}</p>
+                </div>
+              </div>
+            ))
+          ) : (
+            <div style={{ gridColumn: '1 / -1', textAlign: 'center', padding: '20px', color: '#666' }}>
+              No superannuation records found.
             </div>
-          </div>
-        ))}
-      </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

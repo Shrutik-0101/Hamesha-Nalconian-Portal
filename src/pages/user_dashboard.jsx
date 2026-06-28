@@ -1,11 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Power, Calendar, Search, Lock, Gift, Phone, Bell, 
   Calculator, CreditCard, Wallet 
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { getMyEmployeeDetails } from '../services/employeeService';
 import './user_dashboard.css';
 
 const UserDashboard = () => {
+  const [employee, setEmployee] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchEmployee = async () => {
+      try {
+        const data = await getMyEmployeeDetails();
+        setEmployee(data);
+      } catch (error) {
+        console.error('Failed to fetch employee details:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchEmployee();
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    navigate('/login');
+  };
+
   return (
     <div className="dashboard-container">
       <header className="dashboard-header">
@@ -13,7 +39,7 @@ const UserDashboard = () => {
           <div className="logo-placeholder">NALCO</div>
           <div className="welcome-text">
             Welcome back,
-            <strong>Biswanath Rout</strong>
+            <strong>{employee ? employee.name : 'Loading...'}</strong>
           </div>
         </div>
         <nav className="header-nav">
@@ -24,7 +50,7 @@ const UserDashboard = () => {
           <a href="#">Application Forms</a>
           <a href="#">Policies &amp; Docs</a>
           <a href="#">Rules &amp; Circulars</a>
-          <button className="logout-btn" title="Logout">
+          <button className="logout-btn" title="Logout" onClick={handleLogout}>
             <Power size={20} />
           </button>
         </nav>
@@ -34,7 +60,14 @@ const UserDashboard = () => {
         <aside className="dashboard-sidebar">
           <div className="profile-card">
             <div className="profile-img-container">
-              <img src="src/assets/user.jpg" alt="Profile" className="profile-img" />
+              <img src={employee?.photo || "src/assets/user.jpg"} alt="Profile" className="profile-img" />
+            </div>
+            <div className="profile-info" style={{ textAlign: 'center', marginTop: '10px' }}>
+              <div style={{ fontWeight: 'bold' }}>{employee?.name || 'N/A'}</div>
+              <div style={{ fontSize: '0.9em', color: '#666' }}>{employee?.position || 'N/A'}</div>
+              <div style={{ fontSize: '0.8em', color: '#888', marginTop: '5px' }}>
+                DOB: {employee?.dob ? new Date(employee.dob).toLocaleDateString() : 'N/A'}
+              </div>
             </div>
             <div className="profile-help-text">
               Click on image to view your profile and submit changes
