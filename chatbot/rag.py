@@ -10,16 +10,12 @@ from google.genai import types
 from chromadb import Documents, EmbeddingFunction, Embeddings
 
 load_dotenv()
-
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
-
 client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
 class GeminiEmbeddingFunction(EmbeddingFunction):
-
     def __call__(self, input: Documents) -> Embeddings:
-
         response = client.models.embed_content(
             model="gemini-embedding-2",
             contents=input,
@@ -28,22 +24,15 @@ class GeminiEmbeddingFunction(EmbeddingFunction):
         return [embedding.values for embedding in response.embeddings]
 
 def load_pdf(file_path):
-
     reader = PdfReader(file_path)
-
     text = ""
-
     for page in reader.pages:
-
         extracted = page.extract_text()
-
         if extracted:
             text += extracted
-
     return text
 
 def split_text(text, chunk_size=1800, overlap=200):
-
     chunks = []
     start = 0
     while start < len(text):
@@ -52,9 +41,7 @@ def split_text(text, chunk_size=1800, overlap=200):
         if end >= len(text):
             break
         start += chunk_size - overlap
-
     return [c for c in chunks if c]
-
 
 DB_PATH = "./chroma_db_v2"
 COLLECTION_NAME = "nalco_rag"

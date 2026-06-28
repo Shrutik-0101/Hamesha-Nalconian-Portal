@@ -17,11 +17,12 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [captchaToken, setCaptchaToken] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [role, setRole] = useState('USER');
 
   const validateForm = () => {
     const newErrors = {};
-    if (!formData.employeeNumber || !/^\d+$/.test(formData.employeeNumber)) {
-      newErrors.employeeNumber = 'Retired Employee Number is required (numbers only).';
+    if (!formData.employeeNumber || !/^\d{6}$/.test(formData.employeeNumber)) {
+      newErrors.employeeNumber = 'Employee Number is required (exactly 6 digits).';
     }
     if (!formData.password) {
       newErrors.password = 'Password is required.';
@@ -48,7 +49,7 @@ export default function Login() {
 
     setIsLoading(true);
     try {
-      const data = await loginUser({ ...formData, captchaToken });
+      const data = await loginUser({ ...formData, captchaToken, role });
 
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
@@ -75,15 +76,78 @@ export default function Login() {
       <ToastContainer />
       <div className="auth-page">
         <div className="card auth-card" style={{ maxWidth: '400px', margin: '4rem auto', padding: '2rem' }}>
-          <h2 style={{ textAlign: 'center', marginBottom: '0.3rem', color: '#1d2f60' }}>Login to Your Account</h2>
+          <h2 style={{ textAlign: 'center', marginBottom: '1.5rem', color: '#1d2f60' }}>
+            {role === 'ADMIN' ? 'Admin Login' : 'User Login'}
+          </h2>
+
+          <div className="role-switch-container" style={{ display: 'flex', justifyContent: 'center', marginBottom: '2rem' }}>
+            <div style={{
+              position: 'relative',
+              display: 'flex',
+              background: '#f1f5f9',
+              borderRadius: '30px',
+              padding: '4px',
+              width: '260px',
+              boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.06)'
+            }}>
+              <div style={{
+                position: 'absolute',
+                top: '4px',
+                left: role === 'USER' ? '4px' : '130px',
+                width: '126px',
+                height: 'calc(100% - 8px)',
+                background: '#fff',
+                borderRadius: '26px',
+                boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+              }} />
+              <button
+                type="button"
+                onClick={() => setRole('USER')}
+                style={{
+                  flex: 1,
+                  zIndex: 1,
+                  background: 'none',
+                  border: 'none',
+                  padding: '10px 16px',
+                  fontSize: '0.95rem',
+                  fontWeight: '700',
+                  color: role === 'USER' ? '#1d2f60' : '#64748b',
+                  cursor: 'pointer',
+                  transition: 'color 0.3s ease'
+                }}
+              >
+                USER
+              </button>
+              <button
+                type="button"
+                onClick={() => setRole('ADMIN')}
+                style={{
+                  flex: 1,
+                  zIndex: 1,
+                  background: 'none',
+                  border: 'none',
+                  padding: '10px 16px',
+                  fontSize: '0.95rem',
+                  fontWeight: '700',
+                  color: role === 'ADMIN' ? '#1d2f60' : '#64748b',
+                  cursor: 'pointer',
+                  transition: 'color 0.3s ease'
+                }}
+              >
+                ADMIN
+              </button>
+            </div>
+          </div>
+
           <div className="auth-body">
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               <div className="form-group">
-                <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', fontWeight: '600', color: '#1d2f60' }}>Retired Employee Number</label>
+                <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', fontWeight: '600', color: '#1d2f60' }}>Employee Number</label>
                 <input
                   name="employeeNumber"
                   className="input"
-                  placeholder="Retired Employee Number"
+                  placeholder="Employee Number"
                   value={formData.employeeNumber}
                   onChange={handleChange}
                   style={{ width: '100%', padding: '0.75rem' }}
