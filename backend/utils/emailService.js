@@ -24,7 +24,7 @@ export const sendOtpEmail = async (to, otp) => {
   try {
     const t = await getTransporter();
     const info = await t.sendMail({
-      from: '"NALCO Portal" <noreply@nalco.com>',
+      from: '"HAMESHA NALCONIAN (NALCO)" <noreply@nalco.com>',
       to,
       subject: 'Your OTP for NALCO Portal Registration',
       text: `Your OTP for registration is ${otp}. It will expire in 5 minutes.`,

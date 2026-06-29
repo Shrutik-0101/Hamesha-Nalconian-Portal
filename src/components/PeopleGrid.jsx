@@ -15,7 +15,7 @@ export default function PeopleGrid() {
           getRetiredCount()
         ]);
         setRetirees(employeesData);
-        setRetireesCount(employeesData.length); // Assuming we want the count of all shown users or keep countData.count for just retirees. Let's keep countData.count for the title "Superannuation".
+        setRetireesCount(employeesData.length); 
       } catch (error) {
         console.error('Error fetching retirees data:', error);
       } finally {
