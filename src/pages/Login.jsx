@@ -65,7 +65,7 @@ export default function Login() {
       }, 1000);
 
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Login failed. Please check your credentials.');
+      toast.error(error.response?.data?.message || 'Please check your credentials & Try again !');
     } finally {
       setIsLoading(false);
     }
