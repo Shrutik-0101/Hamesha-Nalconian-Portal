@@ -5,7 +5,6 @@ import User from '../models/User.js';
 import Otp from '../models/Otp.js';
 import { sendOtpEmail } from '../utils/emailService.js';
 
-// Helper to generate 6 digit OTP
 const generateOtp = () => {
   return Math.floor(100000 + Math.random() * 900000).toString();
 };
@@ -17,7 +16,6 @@ export const sendOtp = async (req, res) => {
       return res.status(400).json({ message: 'Email is required' });
     }
 
-    // Validate captcha
     if (!captchaToken) {
       return res.status(400).json({ message: 'CAPTCHA token is required' });
     }
@@ -28,19 +26,15 @@ export const sendOtp = async (req, res) => {
       return res.status(400).json({ message: 'CAPTCHA verification failed' });
     }
 
-    // Generate OTP
     const otpCode = generateOtp();
-    // Expiry: 5 minutes from now
     const expiresAt = new Date(Date.now() + 5 * 60 * 1000);
 
-    // Save/Update OTP in DB
     await Otp.findOneAndUpdate(
       { email },
       { otp: otpCode, expiresAt },
       { upsert: true, new: true }
     );
 
-    // Send email
     const emailSent = await sendOtpEmail(email, otpCode);
     if (!emailSent) {
       return res.status(500).json({ message: 'Failed to send OTP email' });
@@ -75,7 +69,6 @@ export const verifyOtp = async (req, res) => {
       return res.status(400).json({ message: 'OTP has expired' });
     }
 
-    // OTP is valid
     res.status(200).json({ message: 'OTP verified successfully' });
   } catch (error) {
     console.error('Verify OTP Error:', error);
@@ -86,24 +79,18 @@ export const verifyOtp = async (req, res) => {
 export const register = async (req, res) => {
   try {
     const { employeeNumber, dob, mobile, email, password, otp, role } = req.body;
-
-    // Verify OTP again just to be secure before creating user
     const otpRecord = await Otp.findOne({ email });
     if (!otpRecord || otpRecord.otp !== otp || new Date() > otpRecord.expiresAt) {
       return res.status(400).json({ message: 'Invalid or expired OTP. Please verify again.' });
     }
-
-    // Check if user already exists (employee number or email)
     const existingUser = await User.findOne({ $or: [{ employeeNumber }, { email }] });
     if (existingUser) {
       return res.status(400).json({ message: 'User with this Employee Number or Email already exists' });
     }
 
-    // Hash password
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Create user
     const newUser = new User({
       employeeNumber,
       dob,
@@ -115,8 +102,6 @@ export const register = async (req, res) => {
     });
 
     await newUser.save();
-
-    // Delete OTP record after successful registration
     await Otp.deleteOne({ email });
 
     res.status(201).json({ message: 'User registered successfully' });
@@ -146,13 +131,11 @@ export const login = async (req, res) => {
       return res.status(400).json({ message: 'CAPTCHA verification failed' });
     }
 
-    // Find user
     const user = await User.findOne({ employeeNumber });
     if (!user) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    // Check password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(401).json({ message: 'Invalid credentials' });
