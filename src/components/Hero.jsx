@@ -1,50 +1,36 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getRetiredEmployees } from '../services/employeeService';
+import { getContent } from '../services/contentService';
 import sl1 from '../assets/sl1.jpg';
 import sl2 from '../assets/sl2.png';
 import sl3 from '../assets/sl3.jpg';
 import sl4 from '../assets/sl4.jpg';
 
 const heroItems = [
-  { bg: `linear-gradient(135deg, rgba(183, 28, 28, 0.65), rgba(230, 74, 25, 0.75)), url("${sl1}") center/cover no-repeat` },
-  { bg: `linear-gradient(135deg, rgba(183, 28, 28, 0.65), rgba(230, 74, 25, 0.75)), url("${sl2}") center/cover no-repeat` },
-  { bg: `linear-gradient(135deg, rgba(183, 28, 28, 0.65), rgba(230, 74, 25, 0.75)), url("${sl3}") center/cover no-repeat` },
-  { bg: `linear-gradient(135deg, rgba(183, 28, 28, 0.65), rgba(230, 74, 25, 0.75)), url("${sl4}") center/cover no-repeat` },
+  { bg: `url("${sl1}") center/cover no-repeat` },
+  { bg: `url("${sl2}") center/cover no-repeat` },
+  { bg: `url("${sl3}") center/cover no-repeat` },
+  { bg: `url("${sl4}") center/cover no-repeat` },
 ];
 
 export default function Hero() {
   const [heroIdx, setHeroIdx] = useState(0);
-  const [totalRetirees, setTotalRetirees] = useState(0);
-  const [retireesThisMonth, setRetireesThisMonth] = useState(0);
+  const [announcements, setAnnouncements] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchRetirees = async () => {
+    const fetchData = async () => {
       try {
-        const retirees = await getRetiredEmployees();
-        const currentDate = new Date();
-        const currentYear = currentDate.getFullYear();
-        const currentMonth = currentDate.getMonth();
+        const content = await getContent().catch(() => null);
 
-        let monthCount = 0;
-
-        retirees.forEach(emp => {
-          if (emp.retirementDate) {
-            const rDate = new Date(emp.retirementDate);
-            if (rDate.getFullYear() === currentYear && rDate.getMonth() === currentMonth) {
-              monthCount++;
-            }
-          }
-        });
-
-        setTotalRetirees(retirees.length);
-        setRetireesThisMonth(monthCount);
+        if (content && content.announcements) {
+          setAnnouncements(content.announcements);
+        }
       } catch (error) {
-        console.error("Failed to fetch retirees:", error);
+        console.error("Failed to fetch hero data:", error);
       }
     };
-    fetchRetirees();
+    fetchData();
 
     const interval = setInterval(() => {
       setHeroIdx((prev) => (prev + 1) % heroItems.length);
@@ -64,7 +50,7 @@ export default function Hero() {
             ></div>
           ))}
         </div>
-        <div className="hero-overlay"></div>
+        <div className="hero-overlay" style={{ background: 'linear-gradient(135deg, rgba(29, 2, 2, 0.35), rgba(64, 0, 7, 0.5))', backdropFilter: 'blur(2px)' }}></div>
 
         <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <div className="hero-content">
@@ -99,17 +85,6 @@ export default function Hero() {
               ))}
             </div>
           </div>
-
-          <div className="retiree-stats" style={{ display: 'flex', flexDirection: 'column', gap: '20px', zIndex: 2, minWidth: '220px', marginRight: '5%' }}>
-            <div className="stat-box" style={{ background: 'linear-gradient(135deg, rgba(255, 245, 245, 0.95), rgba(255, 255, 255, 0.95))', padding: '25px', borderRadius: '16px', color: '#b71c1c', textAlign: 'center', backdropFilter: 'blur(10px)', border: '1px solid rgba(183, 28, 28, 0.15)', boxShadow: '0 8px 32px rgba(183, 28, 28, 0.08)' }}>
-              <h3 style={{ fontSize: '42px', margin: '0 0 5px', fontWeight: 'bold' }}>{totalRetirees}</h3>
-              <p style={{ margin: 0, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '1px', opacity: 0.8, color: '#5a6480', fontWeight: '600' }}>Total Retired Employees</p>
-            </div>
-            <div className="stat-box" style={{ background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 245, 245, 0.95))', padding: '25px', borderRadius: '16px', color: '#b71c1c', textAlign: 'center', backdropFilter: 'blur(10px)', border: '1px solid rgba(183, 28, 28, 0.15)', boxShadow: '0 8px 32px rgba(183, 28, 28, 0.08)' }}>
-              <h3 style={{ fontSize: '42px', margin: '0 0 5px', fontWeight: 'bold' }}>{retireesThisMonth}</h3>
-              <p style={{ margin: 0, fontSize: '13px', textTransform: 'uppercase', letterSpacing: '1px', opacity: 0.8, color: '#5a6480', fontWeight: '600' }}>Retired This Month</p>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -119,16 +94,14 @@ export default function Hero() {
         </div>
         <div className="ticker-scroll">
           <div className="ticker-track">
-            <span>Medical reimbursement deadline: 30 June 2026</span>
-            <span>Pension revision circular now available</span>
-            <span>Welfare Camp – Bhubaneswar – 15 June 2026</span>
-            <span>Updated empanelled hospitals list uploaded</span>
-            <span>Superannuation list for May 2026 published</span>
-            <span>PRMBS session recording uploaded</span>
-            <span>Medical reimbursement deadline: 30 June 2026</span>
-            <span>Pension revision circular now available</span>
-            <span>Welfare Camp – Bhubaneswar – 15 June 2026</span>
-            <span>Updated empanelled hospitals list uploaded</span>
+            {announcements.length > 0 ? (
+              <>
+                {announcements.map((text, i) => <span key={`a1-${i}`}>{text}</span>)}
+                {announcements.map((text, i) => <span key={`a2-${i}`}>{text}</span>)}
+              </>
+            ) : (
+              <span>No announcements right now</span>
+            )}
           </div>
         </div>
       </div>

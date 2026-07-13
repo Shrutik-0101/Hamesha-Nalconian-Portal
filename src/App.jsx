@@ -8,6 +8,10 @@ import UserDashboard from "./pages/user_dashboard";
 import AdminDashboard from "./pages/admin_dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminRoute from "./components/AdminRoute";
+import Investments from "./pages/Investments";
+import Wellness from "./pages/Wellness";
+import Faq from "./pages/Faq";
+import ContactUs from "./pages/ContactUs";
 
 function AppContent() {
   const location = useLocation();
@@ -17,6 +21,10 @@ function AppContent() {
     <>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/investments" element={<Investments />} />
+        <Route path="/wellness" element={<Wellness />} />
+        <Route path="/faq" element={<Faq />} />
+        <Route path="/contact-us" element={<ContactUs />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/user-dashboard" element={

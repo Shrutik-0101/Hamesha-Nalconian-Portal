@@ -14,12 +14,13 @@ export default function NavBar() {
         </div>
 
         <div className="nav-links">
-          <Link to="/" className="active">Home</Link>
-          <a href="https://mudira.nalcoindia.co.in:444/nalco/?p=investment">Investments</a>
-          <a href="https://mudira.nalcoindia.co.in:444/nalco/?p=wellness">Wellness</a>
-          <a href="https://mudira.nalcoindia.co.in:444/nalco/?p=press-releases">Press Releases</a>
-          <a href="https://mudira.nalcoindia.co.in:444/nalco/?p=faq">Faq</a>
-          <a href="https://mudira.nalcoindia.co.in:444/nalco/?p=contact-us">Contact us</a>
+          <Link to="/">Home</Link>
+          <Link to="/investments">Investments</Link>
+          <Link to="/wellness">Wellness</Link>
+          <Link to="https://nalcoindia.com/news-media/press-releases/">Press Releases</Link>
+          <Link to="/faq">Faq</Link>
+          <Link to="/contact-us">Contact us</Link>
+          
         </div>
 
         <div className="socials">

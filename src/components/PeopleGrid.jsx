@@ -30,7 +30,7 @@ export default function PeopleGrid() {
     <div>
       <div className="section-title">
         <div className="title-accent"></div>
-        <h2>Superannuation – This Month {retireesCount > 0 && <span style={{fontSize: '0.6em', fontWeight: 'normal', color: '#666', marginLeft: '10px'}}>({retireesCount} Retirees)</span>}</h2>
+        <h2>Superannuation – This Month </h2>
         <div className="title-bar"></div>
       </div>
       {loading ? (
